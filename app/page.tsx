@@ -22,7 +22,7 @@ export default function Home() {
   return (
     <div className="flex flex-col md:flex-row h-screen font-primary">
       <Navbar onSend={handleData} />
-      <main className="flex-1 p-4">
+      <main className="flex-1 text-gray-700 bg-gray-100">
         {pageList.find(page => page.id === selectedPage)?.page}
       </main>
     </div>
