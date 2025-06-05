@@ -12,7 +12,7 @@ export default function Navbar({ onSend }: { onSend: (data: string) => void }) {
 
     const menuItems = [
         { id: 'dashboard', label: 'แดชบอร์ด', icon: 'material-symbols:space-dashboard' },
-        { id: 'news', label: 'ข่าวสาร', icon: 'material-symbols:newsmode-rounded' },
+        { id: 'news', label: 'จัดการข่าวสาร', icon: 'material-symbols:newsmode-rounded' },
         { id: 'contact', label: 'ติดต่อ', icon: 'material-symbols:contact-page' }
     ];
 
