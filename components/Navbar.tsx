@@ -6,17 +6,20 @@ import { useState } from "react";
 export default function Navbar() {
     const [selected, setSelected] = useState<string>('dashboard');
 
-     const menuItems = [
+    const menuItems = [
         { id: 'dashboard', label: 'แดชบอร์ด', icon: 'material-symbols:space-dashboard' },
         { id: 'news', label: 'ข่าวสาร', icon: 'material-symbols:newsmode-rounded' },
         { id: 'contact', label: 'ติดต่อ', icon: 'material-symbols:contact-page' }
     ];
     
     return (
-        <div className=" h-full w-[15%] py-4  bg-white text-gray-400">
-            <div className="text-lg text-green-700 font-bold flex flex-col p-4 justify-start items-center">CMS Website</div>
+        <div className="group h-full hover:w-[15%] w-[5%] py-4 bg-white text-gray-400 transition-all duration-300 ease-out">
+            <div className="text-lg text-green-700 font-bold flex flex-col p-4 justify-start items-center">
+                <span className="hidden group-hover:block">CMS Website</span>
+                <span className="block group-hover:hidden">CMS</span>
+            </div>
             <div className="flex flex-col gap-5 mx-4">
-               {menuItems.map(item => (
+                {menuItems.map(item => (
                     <div key={item.id}>
                         <div
                             id={item.id}
@@ -25,8 +28,8 @@ export default function Navbar() {
                                 ${selected === item.id ? 'border-green-700 border-l-2 bg-green-200 text-green-700' : 'hover:border-l-2 hover:border-gray-400 hover:bg-gray-100 hover:text-gray-700'}
                             `}
                         >
-                            <Icon icon={item.icon} width="20" height="20" />
-                            <h1>{item.label}</h1>
+                            <Icon icon={item.icon} width="18" height="18" />
+                            <h1 className="hidden group-hover:block">{item.label}</h1>
                         </div>
                     </div>
                 ))}
