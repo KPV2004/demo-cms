@@ -1,6 +1,6 @@
 import { Icon } from "@iconify/react/dist/iconify.js";
 import Confirm from "@/components/Confirm";
-
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function News() {
@@ -167,9 +167,11 @@ export default function News() {
                                     <div className="flex items-center justify-center gap-2">
                                         <button
                                             className="hover:bg-blue-100 rounded-full p-1 transition-colors"
-                                            onClick={() => alert(`แก้ไขข่าวสาร ID: ${item.id}`)}
                                         >
-                                            <Icon icon="material-symbols:edit" width="20" height="20" className="text-blue-500 hover:text-blue-700" />
+                                            {/* <Icon icon="material-symbols:edit" width="20" height="20" className="text-blue-500 hover:text-blue-700" /> */}
+                                            <Link href={`/post/${item.id}`} target="_blank" rel="noopener noreferrer">
+                                                <Icon icon="material-symbols:edit" width="20" height="20" className="text-blue-500 hover:text-blue-700" />
+                                            </Link>
                                         </button>
                                         <button
                                             onClick={() => handleDelete(item.id)}
