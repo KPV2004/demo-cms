@@ -1,11 +1,17 @@
 'use client'
 
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useState } from "react";
+import { Icon } from "@iconify/react/dist/iconify.js"; // ใช้ Iconify สำหรับแสดงไอคอน
+import { useEffect, useState } from "react"; // ใช้ useState และ useEffect จาก React
 
-export default function Navbar() {
+export default function Navbar({ onSend }: { onSend: (data: string) => void }) {
     const [selected, setSelected] = useState<string>('dashboard');
 
+    // useEffect เพื่อส่งค่าที่เลือกไปยัง parent component เพื่อที่จะเปลี่ยนแปลงข้อมูล
+    useEffect(() => {
+        onSend(selected);
+    }, [selected]);
+
+    // รายการเมนูที่จะแสดงใน Navbar
     const menuItems = [
         { id: 'dashboard', label: 'แดชบอร์ด', icon: 'material-symbols:space-dashboard' },
         { id: 'news', label: 'ข่าวสาร', icon: 'material-symbols:newsmode-rounded' },
@@ -19,6 +25,7 @@ export default function Navbar() {
                 <span className="block group-hover:hidden">CMS</span>
             </div>
             <div className="flex flex-col gap-5 mx-4">
+                {/* รายการเมนู */}
                 {menuItems.map(item => (
                     <div key={item.id}>
                         <div
