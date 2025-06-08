@@ -1,9 +1,9 @@
-// app/.../[slug]/page.tsx (หรือไฟล์ที่คุณใช้งาน)
+// path: app/.../[slug]/page.tsx (หรือไฟล์ Page ของคุณ)
 'use client'
 
 import { useParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import TiptapEditor from '@/components/TiptapEditor' // แก้ไข path ตามตำแหน่งที่เก็บไฟล์
+import TiptapEditor from '@/components/TiptapEditor' // ตรวจสอบ path ให้ถูกต้อง
 
 type Post = {
   id: string
@@ -19,14 +19,11 @@ export default function Page() {
 
   // ฟังก์ชันสำหรับจัดการการเปลี่ยนแปลงของเนื้อหาจาก Tiptap
   const handleContentChange = (newContent: string) => {
-    if (post) {
-      setPost({ ...post, content: newContent })
-    }
+    // อัปเดต state เฉพาะส่วน content โดยไม่กระทบส่วนอื่นของ post
+    setPost((prevPost) => (prevPost ? { ...prevPost, content: newContent } : null))
   }
 
   useEffect(() => {
-    // ในชีวิตจริง ส่วนนี้จะเป็นการ fetch ข้อมูลจาก API
-    // โดย slug ที่ได้จาก params จะถูกใช้เพื่อดึง post ที่ถูกต้อง
     if (post != null) {
       return
     }
@@ -36,65 +33,96 @@ export default function Page() {
     setTimeout(() => {
       setPost({
         id: '1',
-        title: 'Post Title - Editable',
-        // เนื้อหาเริ่มต้นควรเป็น HTML
-        content: '<h1>สวัสดี Tiptap!</h1><p>นี่คือ Text Editor ที่มีความสามารถคล้าย <strong>Google Docs</strong> ลองพิมพ์และจัดรูปแบบดูสิ</p><ul><li><p>รายการที่ 1</p></li><li><p>รายการที่ 2</p></li></ul>',
-        date: '2023-10-01',
+        title: 'Editor with Image Support',
+        // --- ตัวอย่าง content เริ่มต้นที่มีรูปภาพ ---
+        content: `
+          <h1>Welcome to Your Advanced Editor!</h1>
+          <p>This editor now supports images. You can add an image using the "Add Image" button in the toolbar.</p>
+          <img src="https://inwfile.com/s-de/bee2ed.jpg" />
+          <p>This is a sample image from Unsplash. You can also add your own image URLs.</p>
+          <ul>
+            <li><p>Bold and <em>italic</em> text are supported.</p></li>
+            <li><p>Lists are easy to create.</p></li>
+          </ul>
+          <p>Start editing and bring your content to life!</p>
+        `,
+        date: '2025-06-08',
         author: 'John Doe',
       })
       setIsLoading(false)
     }, 1000)
-  }, []) // Dependency array ยังคงเป็น [] เพื่อให้ fetch ข้อมูลครั้งเดียว
+  }, [])
 
-  const params = useParams()
-
-  // ฟังก์ชันสำหรับบันทึกข้อมูล (ตัวอย่าง)
+  // ฟังก์ชันจำลองการบันทึกข้อมูล
   const savePost = async () => {
-    if (!post) return;
-    alert('กำลังบันทึกข้อมูล...\n' + post.content);
-    // ในการใช้งานจริง:
-    // const response = await fetch(`/api/posts/${post.id}`, {
-    //   method: 'PUT',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({ content: post.content }),
-    // });
-    // const result = await response.json();
-    // console.log('Saved:', result);
+    if (!post) return
+    
+    setIsLoading(true) // แสดงสถานะกำลังโหลดระหว่างบันทึก
+    console.log('Saving post content to the database...')
+    console.log(post.content)
+
+    // จำลองการเรียก API
+    setTimeout(() => {
+      setIsLoading(false)
+      alert('Post saved successfully!')
+      // ในการใช้งานจริง:
+      // try {
+      //   const response = await fetch(`/api/posts/${post.id}`, {
+      //     method: 'PUT',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     body: JSON.stringify({ content: post.content }),
+      //   });
+      //   if (!response.ok) throw new Error('Failed to save');
+      //   const result = await response.json();
+      //   console.log('Saved:', result);
+      //   alert('Post saved successfully!');
+      // } catch (error) {
+      //   console.error(error);
+      //   alert('Error saving post.');
+      // } finally {
+      //   setIsLoading(false);
+      // }
+    }, 1500)
+    console.log('Post saved:', post)
   }
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen p-4 bg-white text-black pt-10">
+    <div className="flex flex-col items-center justify-start w-full min-h-screen p-4 bg-gray-100 text-black pt-10">
       {isLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-12 h-12 border-4 border-gray-200 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-white text-lg">กำลังโหลดข้อมูล...</p>
+            <div className="w-12 h-12 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin"></div>
+            <p className="text-white text-lg">Processing...</p>
           </div>
         </div>
       )}
 
       {post && (
         <div className="w-full max-w-4xl flex flex-col items-center gap-6">
-          {/* ส่วนหัวของ Post */}
-          <div className="text-center">
-            <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
+          <div className="text-center w-full">
+            <input
+              type="text"
+              value={post.title}
+              onChange={(e) => setPost({ ...post, title: e.target.value })}
+              className="text-4xl font-bold mb-2 text-center w-full bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-300 rounded-md py-2"
+            />
             <p className="text-gray-600">
               By <strong>{post.author}</strong> on <span>{post.date}</span>
             </p>
           </div>
 
-          {/* Tiptap Editor */}
+          {/* --- Tiptap Editor Component --- */}
           <TiptapEditor
             content={post.content}
             onContentChange={handleContentChange}
           />
           
-          {/* ปุ่มสำหรับบันทึก */}
           <button
             onClick={savePost}
-            className="mt-4 px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75"
+            className="mt-4 px-8 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75 disabled:bg-gray-400"
+            disabled={isLoading}
           >
-            Save Changes
+            {isLoading ? 'Saving...' : 'Save Changes'}
           </button>
         </div>
       )}
