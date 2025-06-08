@@ -169,7 +169,7 @@ export default function TiptapEditor({ content, onContentChange }: TiptapEditorP
       Text,
       Heading,
       TextAlign.configure({
-        types: ['heading', 'paragraph', 'text', 'image'],
+        types: ['heading', 'paragraph','image'],
       }),
     ],
     // 2. กำหนด content เริ่มต้น
