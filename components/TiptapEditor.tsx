@@ -5,10 +5,15 @@ import React from 'react'
 import { useEditor, EditorContent, Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Image from '@tiptap/extension-image'
+import TextAlign from '@tiptap/extension-text-align'
+import Document from '@tiptap/extension-document'
+import Heading from '@tiptap/extension-heading'
+import Paragraph from '@tiptap/extension-paragraph'
+import Text from '@tiptap/extension-text'
 
 // --- คอมโพเนนต์สำหรับ Toolbar ---
 const Toolbar = ({ editor }: { editor: Editor | null }) => {
-  
+
   if (!editor) {
     return null
   }
@@ -86,7 +91,24 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
       <button type="button" onClick={addImage}>
         เพิ่มรูปภาพด้วย URL
       </button>
-
+      <button
+        onClick={() => editor.chain().focus().setTextAlign('left').run()}
+        className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
+      >
+        Left
+      </button>
+      <button
+        onClick={() => editor.chain().focus().setTextAlign('center').run()}
+        className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
+      >
+        Center
+      </button>
+      <button
+        onClick={() => editor.chain().focus().setTextAlign('right').run()}
+        className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
+      >
+        Right
+      </button>
       {/* CSS Styling สำหรับปุ่มใน Toolbar */}
       <style jsx>{`
         button {
@@ -130,7 +152,14 @@ export default function TiptapEditor({ content, onContentChange }: TiptapEditorP
       }),
       Image.configure({
         // อนุญาตให้แทรกรูปภาพแบบ inline ได้
-        inline: true, 
+        inline: true,
+      }),
+      Document,
+      Paragraph,
+      Text,
+      Heading,
+      TextAlign.configure({
+        types: ['heading', 'paragraph', 'text', 'image'],
       }),
     ],
     // 2. กำหนด content เริ่มต้น
