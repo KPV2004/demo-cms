@@ -1,6 +1,6 @@
 // path: components/TiptapEditor.tsx
 'use client'
-
+import { Icon } from "@iconify/react/dist/iconify.js";
 import React from 'react'
 import { useEditor, EditorContent, Editor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -35,7 +35,8 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleBold().run()}
         className={editor.isActive('bold') ? 'is-active' : ''}
       >
-        Bold
+        {/* Bold */}
+        <Icon icon="mdi:format-bold" className="inline-block ml-1" />
       </button>
       <button
         type="button"
@@ -43,7 +44,8 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleItalic().run()}
         className={editor.isActive('italic') ? 'is-active' : ''}
       >
-        Italic
+        {/* Italic */}
+        <Icon icon="mdi:format-italic" className="inline-block ml-1" />
       </button>
       <button
         type="button"
@@ -51,63 +53,71 @@ const Toolbar = ({ editor }: { editor: Editor | null }) => {
         disabled={!editor.can().chain().focus().toggleStrike().run()}
         className={editor.isActive('strike') ? 'is-active' : ''}
       >
-        Strike
+        {/* Strike */}
+        <Icon icon="mdi:format-strikethrough" className="inline-block ml-1" />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().setParagraph().run()}
         className={editor.isActive('paragraph') ? 'is-active' : ''}
       >
-        Paragraph
+        {/* Paragraph */}
+        <Icon icon="mdi:format-paragraph" className="inline-block ml-1" />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
         className={editor.isActive('heading', { level: 1 }) ? 'is-active' : ''}
       >
-        H1
+        <Icon icon="mdi:format-header-1" className="inline-block ml-1" />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
         className={editor.isActive('heading', { level: 2 }) ? 'is-active' : ''}
       >
-        H2
+        <Icon icon="mdi:format-header-2" className="inline-block ml-1" />
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={editor.isActive('bulletList') ? 'is-active' : ''}
       >
-        Bullet List
+        <Icon icon="mdi:format-list-bulleted" className="inline-block ml-1" />  
       </button>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={editor.isActive('orderedList') ? 'is-active' : ''}
       >
-        Ordered List
+        <Icon icon="mdi:format-list-numbered" className="inline-block ml-1" />
       </button>
       <button type="button" onClick={addImage}>
-        เพิ่มรูปภาพด้วย URL
+
+        {/* เพิ่มรูปภาพด้วย URL */}
+        <Icon icon="mdi:image-plus" className="inline-block ml-1" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign('left').run()}
         className={editor.isActive({ textAlign: 'left' }) ? 'is-active' : ''}
       >
-        Left
+        {/* Left */}
+        <Icon icon="mdi:format-align-left" className="inline-block ml-1" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign('center').run()}
         className={editor.isActive({ textAlign: 'center' }) ? 'is-active' : ''}
       >
-        Center
+        {/* Center */}
+        <Icon icon="mdi:format-align-center" className="inline-block ml-1" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign('right').run()}
         className={editor.isActive({ textAlign: 'right' }) ? 'is-active' : ''}
       >
-        Right
+        {/* Right */}
+
+        <Icon icon="mdi:format-align-right" className="inline-block ml-1" />
       </button>
       {/* CSS Styling สำหรับปุ่มใน Toolbar */}
       <style jsx>{`
